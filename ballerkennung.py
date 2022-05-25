@@ -1,4 +1,6 @@
 def ballerkennung():
+    BILDBREITE = 640
+    BILDHOEHE = 480
     import matplotlib.image as mpimg
     import matplotlib.pyplot as plt
     import numpy as np
@@ -6,9 +8,8 @@ def ballerkennung():
     import imutils
     capture = cv2.VideoCapture(1)
     print(capture.isOpened())
-    capture.set(3, 640)
-    capture.set(4, 480)
-
+    capture.set(3, BILDBREITE)
+    capture.set(4, BILDHOEHE)
     while capture.isOpened:
         success, frame = capture.read()
         orangeLower = (0, 120, 120)
@@ -32,7 +33,27 @@ def ballerkennung():
                 cv2.circle(frame, (int(x), int(y)), int(radius),
                            (0, 255, 255), 2)
                 #cv2.circle(frame, center, 5, (0, 0, 255), -1)
-        # update the points queue
+
+        try:
+            object_height = radius * 2
+            test = str(radius)
+        except UnboundLocalError:
+            test = "Gibt es nicht"
+        #distance = distance_to_object(0,9,BILDHOEHE,object_height,0)
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        bottomLeftCornerOfText = (0, 100)
+        fontScale = 1
+        fontColor = (0, 0, 255)
+        thickness = 1
+        lineType = 2
+
+        cv2.putText(frame, test,
+                    bottomLeftCornerOfText,
+                    font,
+                    fontScale,
+                    fontColor,
+                    thickness,
+                    lineType)
         if success == True:
             cv2.startWindowThread()
             cv2.namedWindow("Vorschau")
@@ -45,6 +66,9 @@ def ballerkennung():
 
     cv2.destroyAllWindows()
     cv2.waitKey(1)  # Wichtig für Macintosh
+
+def distance_to_object(brennweite,reele_hoehe,bildhoehe,objekthoehe,sensorhoehe):
+    pass
 
 if __name__ == '__main__':
     ballerkennung()
