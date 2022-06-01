@@ -10,7 +10,8 @@ def ballerkennung():
     print(capture.isOpened())
     capture.set(3, BILDBREITE)
     capture.set(4, BILDHOEHE)
-    while capture.isOpened:
+   # while capture.isOpened:
+    for i in range(10):
         success, frame = capture.read()
         orangeLower = (0, 120, 120)
         orangeUpper = (15, 255, 255)
@@ -32,6 +33,8 @@ def ballerkennung():
             if radius > 10:
                 cv2.circle(frame, (int(x), int(y)), int(radius),
                            (0, 255, 255), 2)
+                distance_to_center = BILDBREITE/2 - center[0]
+                return radius,distance_to_center
                 #cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
         try:
@@ -39,6 +42,8 @@ def ballerkennung():
             test = str(radius)
         except UnboundLocalError:
             test = "Gibt es nicht"
+
+
         #distance = distance_to_object(0,9,BILDHOEHE,object_height,0)
         font = cv2.FONT_HERSHEY_SIMPLEX
         bottomLeftCornerOfText = (0, 100)
@@ -67,8 +72,12 @@ def ballerkennung():
     cv2.destroyAllWindows()
     cv2.waitKey(1)  # Wichtig für Macintosh
 
+    return None,None
+
 def distance_to_object(brennweite,reele_hoehe,bildhoehe,objekthoehe,sensorhoehe):
     pass
 
-if __name__ == '__main__':
+
+
+if __name__=='__main__':
     ballerkennung()
